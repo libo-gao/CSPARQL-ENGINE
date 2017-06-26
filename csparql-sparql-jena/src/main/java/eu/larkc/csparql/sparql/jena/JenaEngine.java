@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.hp.hpl.jena.util.FileManager;
+import org.apache.jena.atlas.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -101,6 +102,8 @@ public class JenaEngine implements SparqlEngine {
 
 	private Model model = null;
 
+	private Model stream_model = null;
+
 	Map<String, Model> graphs = new HashMap<String, Model>();
 
 	Map<Statement,Long> timestamps = new HashMap<Statement,Long>();
@@ -154,9 +157,38 @@ public class JenaEngine implements SparqlEngine {
 		this.model.add(s);
 	}
 
+	public void addStreamStatement(final String subject, final String predicate, final String object, final long timestamp) {
+
+		final Statement s;
+
+		String[] objectParts = object.split("\\^\\^");
+		if(objectParts.length > 1) {
+
+			TypeMapper tm = TypeMapper.getInstance();
+			RDFDatatype d = tm.getTypeByName(objectParts[1]);
+			Literal lObject = model.createTypedLiteral(objectParts[0].replaceAll("\"", ""),d);
+
+			s = new StatementImpl(new ResourceImpl(subject), new PropertyImpl(predicate), lObject);
+
+		} else {
+
+			s = new StatementImpl(new ResourceImpl(subject), new PropertyImpl(predicate), new ResourceImpl(object));
+		}
+
+		if(performTimestampFunction){
+			if(timestamp != 0){
+				timestamps.put(s, new Long(timestamp));
+			}
+		}
+		this.stream_model.add(s);
+		this.model.add(s);
+	}
+
 	public void clean() {
 		// TODO implement SparqlEngine.clean
-		this.model.remove(this.model);
+		//this.model.remove(this.model);
+		this.model.remove(this.stream_model);
+		this.stream_model.removeAll();
 		timestamps.clear();
 	}
 
@@ -173,12 +205,13 @@ public class JenaEngine implements SparqlEngine {
 
 		final Query q = QueryFactory.create(query.getQueryCommand(), Syntax.syntaxSPARQL_11);
 
+/*
 		for(String s: q.getGraphURIs()){
 			List<RDFTuple> list = jds.getNamedModel(s);
 			for(RDFTuple t : list)
 				addStatement(t.get(0), t.get(1), t.get(2));
 		}
-
+*/
 		QueryExecution qexec;
 
 		if(reasonerMap.containsKey(query.getId())){
@@ -360,6 +393,7 @@ public class JenaEngine implements SparqlEngine {
 
 	public void initialize() {
 		this.model = ModelFactory.createDefaultModel();
+		this.stream_model = ModelFactory.createDefaultModel();
 	}
 
 	private List<RDFTuple> modelToTupleList(Model m){
@@ -396,7 +430,7 @@ public class JenaEngine implements SparqlEngine {
 			if(in == null){
 				throw new IllegalArgumentException("File" + modelReference + " not found");
 			}
-			m = model.read(in, null, "TURTLE");
+			m.read(in, null, "TURTLE");
 		} catch(Exception e){
 			System.out.print("test--------------"+modelReference+e.toString()+'\n');
 			StringReader sr = new StringReader(modelReference);
@@ -419,6 +453,13 @@ public class JenaEngine implements SparqlEngine {
 			sr.close();
 		}
 		jds.putNamedModel(iri, modelToTupleList(m));
+
+
+		List<RDFTuple> list = jds.getNamedModel(iri);
+		for(RDFTuple t : list)
+			addStatement(t.get(0), t.get(1), t.get(2));
+
+
 	}
 
 	@Override

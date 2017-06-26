@@ -43,9 +43,9 @@ public class WatdivTestGenerator extends RdfStream implements Runnable {
         FileInputStream file_purchase = null;
         FileInputStream file_review = null;
         try {
-            file_like = new FileInputStream("like.txt");
-            file_purchase = new FileInputStream("purchase.txt");
-            file_review = new FileInputStream("review.txt");
+            file_like = new FileInputStream("data/scale50/like_stream.txt");
+            file_purchase = new FileInputStream("data/scale50/purchase.txt");
+            file_review = new FileInputStream("data/scale50/review.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

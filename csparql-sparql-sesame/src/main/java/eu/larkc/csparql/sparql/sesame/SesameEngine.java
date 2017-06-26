@@ -208,6 +208,10 @@ public class SesameEngine implements SparqlEngine {
 		}
 	}
 
+	public void addStreamStatement(String subject, String predicate, String object, long timestamp){
+
+	}
+
 	private Statement createStatement(final String subject, final String predicate,
 			final String object) {
 		final MemURI s = new MemURI("this", "", subject);

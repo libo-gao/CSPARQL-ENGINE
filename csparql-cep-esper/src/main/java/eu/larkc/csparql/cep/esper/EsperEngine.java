@@ -96,6 +96,8 @@ public class EsperEngine implements CepEngine {
 			timeStampTick = Config.INSTANCE.getTimeStampTick();
 		}
 
+		//this.configuration.getEngineDefaults().getThreading().setListenerDispatchPreserveOrder(false);
+
 		// Obtain an engine instance
 		this.epService = EPServiceProviderManager.getDefaultProvider(this.configuration);
 		// ...and initialize it
