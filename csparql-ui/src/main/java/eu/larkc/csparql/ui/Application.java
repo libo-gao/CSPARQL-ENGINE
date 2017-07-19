@@ -93,7 +93,7 @@ public final class Application {
       final CsparqlEngine engine = new CsparqlEngineImpl();
       engine.initialize();
 
-      engine.putStaticNamedModel("http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl", "/Users/nosrepus/workspace/CSPARQL-ENGINE/scale10.ttl");
+      engine.putStaticNamedModel("http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl", "/home/l36gao/UWaterloo-WatDiv/bin/Release/1-100/1-100.ttl");
 //      final RDFStreamAggregationTestGenerator tg = new RDFStreamAggregationTestGenerator("http://www.larkc.eu/defaultRDFInputStream");
 //      final GlueStreamGenerator tg = new GlueStreamGenerator();
       WatdivTestGenerator tg = new WatdivTestGenerator("http://myexample.org/stream");
