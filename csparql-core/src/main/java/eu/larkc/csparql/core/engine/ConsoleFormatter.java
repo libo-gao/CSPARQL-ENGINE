@@ -42,7 +42,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.Observable;
 import java.io.IOException;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
+//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import eu.larkc.csparql.common.RDFTable;
 import eu.larkc.csparql.common.RDFTuple;
 import eu.larkc.csparql.core.ResultFormatter;
