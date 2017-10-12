@@ -255,8 +255,8 @@ public class EsperEngine implements CepEngine {
 		if (!isSysTimeInit) {
 			// Using the beginning of the current tick as the the window boundary
 			long initTime = inputTime / this.timeStampTick * this.timeStampTick;
-			//this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(inputTime));
-			this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(initTime));
+			this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(inputTime));
+			//this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(initTime));
 			isSysTimeInit = true;
 			this.currentSystemTime = initTime;
 			this.currentSystemLastTickTime = initTime;
