@@ -36,9 +36,9 @@ public class WatdivTestGenerator extends RdfStream implements Runnable {
 
     public void run() {
         FileInputStream file_like = null;
-        String prefix = "/Users/nosrepus/workspace/temp/data/";
+        String prefix = "/u2/l36gao/workspace/watdiv/UWaterloo-WatDiv/bin/Release/";
         try {
-            file_like = new FileInputStream(prefix+"tiny-500-stream.txt");
+            file_like = new FileInputStream(prefix+"10-stream.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -85,6 +85,7 @@ public class WatdivTestGenerator extends RdfStream implements Runnable {
                 long now = System.currentTimeMillis();
                 for(int i = 0; i<predicates.size();i++) {
                     final RdfQuadruple q = new RdfQuadruple(subjects.get(i), predicates.get(i), objects.get(i), now);
+                    //System.out.printf(q.toString()+'\n');
                     this.put(q);
                 }
 

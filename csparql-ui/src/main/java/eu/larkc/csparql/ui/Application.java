@@ -59,7 +59,10 @@ public final class Application {
 
        final String SelectAll = "REGISTER QUERY ALL AS "
                +"SELECT * FROM STREAM <http://myexample.org/stream> [RANGE 5s STEP 5s] "
-               +"WHERE { ?s ?p ?o }";
+               +"FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> "
+               +"WHERE { ?V0 <http://db.uwaterloo.ca/~galuc/wsdbm/likes> ?V1 ." +
+               "?V0 <http://db.uwaterloo.ca/~galuc/wsdbm/gender> ?V2 . "
+               +"}";
 
        final String queryGetAll = "REGISTER QUERY PIPPO AS "
                +"SELECT * FROM STREAM <http://myexample.org/stream> [RANGE 20s STEP 1s] FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> "
@@ -97,7 +100,7 @@ public final class Application {
       final CsparqlEngine engine = new CsparqlEngineImpl();
       engine.initialize();
 
-//      engine.putStaticNamedModel("http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl", "/home/l36gao/UWaterloo-WatDiv/bin/Release/1-100/1-100.ttl");
+      engine.putStaticNamedModel("http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl", "/u2/l36gao/workspace/watdiv/UWaterloo-WatDiv/bin/Release/1-1.ttl");
 //      final RDFStreamAggregationTestGenerator tg = new RDFStreamAggregationTestGenerator("http://www.larkc.eu/defaultRDFInputStream");
 //      final GlueStreamGenerator tg = new GlueStreamGenerator();
       WatdivTestGenerator tg = new WatdivTestGenerator("http://myexample.org/stream");

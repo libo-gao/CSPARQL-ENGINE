@@ -67,7 +67,6 @@ public class ConsoleFormatter extends ResultFormatter {
 		
 		System.out.println();
 		System.out.println("-------"+ q.size() + " results at SystemTime=["+System.currentTimeMillis()+"]--------");
-
 		String time = "end: " + String.valueOf(System.nanoTime())+"\n";
 		try{
 			Files.write(Paths.get("time.txt"), time.getBytes(), StandardOpenOption.APPEND);

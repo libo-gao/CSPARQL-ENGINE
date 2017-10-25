@@ -634,6 +634,7 @@ public class CsparqlEngineImpl implements Observer, CsparqlEngine {
 
 		for (final RdfQuadruple q : quads) {
 			if (isStreamUsedInQuery(csparqlquery, q.getStreamName())) {
+				//this.sparqlEngine.addStatement(q.getSubject(), q.getPredicate(), q.getObject(), q.getTimestamp());
 				this.sparqlEngine.addStreamStatement(q.getSubject(), q.getPredicate(), q.getObject(), q.getTimestamp());
 				count++;
 			}
