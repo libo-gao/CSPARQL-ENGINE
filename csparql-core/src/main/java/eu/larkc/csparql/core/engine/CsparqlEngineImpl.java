@@ -35,11 +35,7 @@
 package eu.larkc.csparql.core.engine;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,6 +89,7 @@ public class CsparqlEngineImpl implements Observer, CsparqlEngine {
 	}
 
 	public void initialize() {
+
 		this.configuration = Configuration.getCurrentConfiguration();
 		this.queries = new ArrayList<CSparqlQuery>();
 		this.streams = new HashMap<String, RdfStream>();
@@ -249,6 +246,7 @@ public class CsparqlEngineImpl implements Observer, CsparqlEngine {
 				return q;
 			}
 		}
+
 		return null;
 	}
 
@@ -274,6 +272,7 @@ public class CsparqlEngineImpl implements Observer, CsparqlEngine {
 	}
 
 	public void stopQuery(final String id) {
+
 		this.cepEngine.stopQuery(id);
 	}
 
@@ -606,13 +605,7 @@ public class CsparqlEngineImpl implements Observer, CsparqlEngine {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Observable o, Object arg) {
-		String time = "start: " + String.valueOf(System.nanoTime())+"\n";
-		try{
-			Files.write(Paths.get("time.txt"), time.getBytes(), StandardOpenOption.APPEND);
-		}catch (IOException e){
-
-		}
-
+		
 		final RdfSnapshot r = (RdfSnapshot) o;
 		List<RdfQuadruple> quads = (List<RdfQuadruple>) arg;
 
@@ -634,8 +627,7 @@ public class CsparqlEngineImpl implements Observer, CsparqlEngine {
 
 		for (final RdfQuadruple q : quads) {
 			if (isStreamUsedInQuery(csparqlquery, q.getStreamName())) {
-				//this.sparqlEngine.addStatement(q.getSubject(), q.getPredicate(), q.getObject(), q.getTimestamp());
-				this.sparqlEngine.addStreamStatement(q.getSubject(), q.getPredicate(), q.getObject(), q.getTimestamp());
+				this.sparqlEngine.addStatement(q.getSubject(), q.getPredicate(), q.getObject(), q.getTimestamp());
 				count++;
 			}
 		}

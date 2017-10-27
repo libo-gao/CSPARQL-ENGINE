@@ -55,8 +55,6 @@ public interface SparqlEngine {
 
 	void addStatement(String subject, String predicate, String object, long timestamp);
 
-	void addStreamStatement(String subject, String predicate, String object, long timestamp);
-
 	void clean();
 	
 	void execUpdateQueryOverDatasource(String queryBody);

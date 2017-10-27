@@ -35,19 +35,13 @@
 package eu.larkc.csparql.ui;
 
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 
 import eu.larkc.csparql.cep.api.RDFStreamAggregationTestGenerator;
 import eu.larkc.csparql.cep.api.RdfStream;
 import eu.larkc.csparql.cep.api.TestGenerator;
-import eu.larkc.csparql.cep.api.WatdivTestGenerator;
-import eu.larkc.csparql.core.engine.ConsoleFormatter;
 import eu.larkc.csparql.core.engine.CsparqlEngine;
 import eu.larkc.csparql.core.engine.CsparqlEngineImpl;
 import eu.larkc.csparql.core.engine.CsparqlQueryResultProxy;
-import eu.larkc.csparql.core.streams.formats.CSparqlQuery;
 
 public final class Application {
 
@@ -57,53 +51,45 @@ public final class Application {
 
    public static void main(final String[] args) {
 
-       final String SelectAll = "REGISTER QUERY ALL AS "
-               +"SELECT * FROM STREAM <http://myexample.org/stream> [RANGE 5s STEP 5s] "
-               +"FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> "
-               +"WHERE { ?V0 <http://db.uwaterloo.ca/~galuc/wsdbm/likes> ?V1 ." +
-               "?V0 <http://db.uwaterloo.ca/~galuc/wsdbm/gender> ?V2 . "
-               +"}";
+	   //final String queryGetAll = "REGISTER QUERY PIPPO AS SELECT ?S ?P ?O FROM STREAM <http://www.glue.com/stream> [RANGE 5s STEP 1s] WHERE { ?S ?P ?O }";
+	   final String queryGetAll = "REGISTER QUERY PIPPO AS SELECT ?S ?P ?O FROM STREAM <http://myexample.org/stream> [RANGE TRIPLES 10] WHERE { ?S ?P ?O }";
 
-       final String queryGetAll = "REGISTER QUERY PIPPO AS "
-               +"SELECT * FROM STREAM <http://myexample.org/stream> [RANGE 20s STEP 1s] FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> "
-               +"WHERE { ?s <http://purl.org/stuff/rev#reviewer> ?O }";
+	   final String queryGetEverythingFromBothStream = "REGISTER QUERY PIPPO AS SELECT ?S ?P ?O FROM STREAM <http://www.glue.com/stream> [RANGE TRIPLES 1] FROM STREAM <http://myexample.org/stream> [RANGE TRIPLES 1] WHERE { ?S ?P ?O }";
+	   
+	   final String queryAnonymousNodes = "REGISTER QUERY PIPPO AS CONSTRUCT {                        [] <http://ex.org/by> ?s  ;  <http://ex.org/count> ?n . } FROM STREAM <http://www.larkc.eu/defaultRDFInputStream> [RANGE TRIPLES 10]                        WHERE {                                { SELECT ?s ?p (count(?o) as ?n)                                  WHERE { ?s ?p ?o }                                  GROUP BY ?s }                              }";
+	   
+	   
+	   final String queryNoCount = "REGISTER QUERY PIPPO AS "
+				+ "SELECT ?p "
+				+ " FROM STREAM <http://myexample.org/stream> [RANGE TRIPLES 1] "
+				+ " FROM <http://dbpedia.org/resource/Castello_Sforzesco> "
+				+ "WHERE { ?s ?p ?o }";
 
-       final String q1 = "REGISTER QUERY q1 AS " +
-               "SELECT * " +
-               "FROM STREAM <http://myexample.org/stream> [RANGE 60s STEP 1s] " +
-               "FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> " +
-               "WHERE {  " +
-               "?v2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?v4 .  " +
-               "?v1 <http://purl.org/stuff/rev#reviewer> ?v2 . }";
-
-       final String s7 = "REGISTER QUERY S7 AS " +
-               "SELECT * " +
-               "FROM STREAM <http://myexample.org/stream> [RANGE 60s STEP 1s] " +
-               "FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> " +
-               "WHERE { " +
-               "?V0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?v1 . " +
-               "?V0 <http://schema.org/text> ?v2 . " +
-               "?V3 <http://db.uwaterloo.ca/~galuc/wsdbm/likes> ?V0 . }";
-
-        final String c3 = "REGISTER QUERY C3 AS " +
-                "SELECT * " +
-                "FROM STREAM <http://myexample.org/stream> [RANGE 60s STEP 1s] " +
-                "FROM <http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl> " +
-                "WHERE {" +
-                "?V0 <http://db.uwaterloo.ca/~galuc/wsdbm/likes> ?V1 . " +
-                "?V0 <http://purl.org/dc/terms/Location> ?V3 . "  +
-                "?V0 <http://xmlns.com/foaf/age> ?V4 . " +
-                "?V0 <http://db.uwaterloo.ca/~galuc/wsdbm/gender> ?V5 . " +
-                "?V0 <http://xmlns.com/foaf/givenName> ?V6 . " +
-                "}";
-
+	  final String queryCount = "REGISTER QUERY PIPPO AS "
+			+ "SELECT ?t (count(?t) AS ?conto)" + " FROM STREAM <http://www.glue.com/stream> [RANGE TRIPLES 30] WHERE { ?s <http://rdfs.org/sioc/ns#topic> ?t } "
+			+ "GROUP BY ?t ";
+	  
+	  final String querySimpleCount = "REGISTER QUERY PIPPO AS "
+			+ "SELECT ?s (COUNT(?s) AS ?conto) FROM STREAM <http://www.glue.com/stream> [RANGE TRIPLES 1] WHERE { ?s ?p ?o } GROUP BY ?s";
+	  
+	  final String queryGetKB = "REGISTER QUERY PIPPO AS "
+			+ "SELECT ?s ?p ?o FROM <http://rdfs.org/sioc/ns>\n FROM STREAM <http://www.glue.com/stream> [RANGE TRIPLES 1] WHERE { ?s ?p ?o }";
+	  
+	  final String queryGetAll2 = "REGISTER QUERY PIPPO AS "
+		  + "CONSTRUCT { <http://www.streams.org/s> <http://www.streams.org/s> ?n }" +
+		 " FROM STREAM <http://myexample.org/stream> [RANGE TRIPLES 2] " +
+		 " WHERE {" +
+		 "  { SELECT (count(?o) as ?n) " +
+		 "  { ?s ?p ?o }" +
+		 "   GROUP BY ?p } " +
+		 "} ";
+	  
       final CsparqlEngine engine = new CsparqlEngineImpl();
       engine.initialize();
 
-      engine.putStaticNamedModel("http://github.com/nosrepus/UWaterloo-WatDiv/raw/master/tiny.ttl", "/u2/l36gao/workspace/watdiv/UWaterloo-WatDiv/bin/Release/1-1.ttl");
 //      final RDFStreamAggregationTestGenerator tg = new RDFStreamAggregationTestGenerator("http://www.larkc.eu/defaultRDFInputStream");
 //      final GlueStreamGenerator tg = new GlueStreamGenerator();
-      WatdivTestGenerator tg = new WatdivTestGenerator("http://myexample.org/stream");
+      TestGenerator tg = new TestGenerator("http://myexample.org/stream");
       
       RdfStream rs = engine.registerStream(tg);
       engine.unregisterStream(rs.getIRI());
@@ -116,21 +102,12 @@ public final class Application {
       final CsparqlQueryResultProxy c2 = null;
 
       try {
-         c1 = engine.registerQuery(SelectAll, false);
+         c1 = engine.registerQuery(queryGetAll, false);
       } catch (final ParseException ex) {
-         System.out.println("error di parsing: " + ex.getMessage());
+         System.out.println("errore di parsing: " + ex.getMessage());
       }
-
-       Collection<CSparqlQuery> items = engine.getAllQueries();
-       for(Iterator it = items.iterator(); it.hasNext();){
-           CSparqlQuery q = (CSparqlQuery) it.next();
-           System.out.println("esper: "+q.getCepQuery().getQueryCommand());
-           System.out.println("sparql: "+q.getSparqlQuery().getQueryCommand());
-       }
-
       if (c1 != null) {
-         c1.addObserver(new ConsoleFormatter());
-         //c1.addObserver(new TextualFormatter());
+         c1.addObserver(new TextualFormatter());
       }
    }
 

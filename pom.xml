@@ -84,68 +84,68 @@
 		<module>csparql-sparql-api</module>
 		<module>csparql-sparql-jena</module>
 		<module>csparql-sparql-sesame</module>
-       <module>csparql-core</module>
-       <module>csparql-ui</module>
-   </modules>
+		<module>csparql-core</module>
+		<module>csparql-ui</module>
+	</modules>
 
-   <dependencyManagement>
-       <dependencies>
-           <dependency>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-api</artifactId>
-               <version>1.7.5</version>
-           </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.5</version>
+			</dependency>
 
-           <dependency>
-               <groupId>org.slf4j</groupId>
-               <artifactId>slf4j-log4j12</artifactId>
-               <version>1.7.5</version>
-           </dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.5</version>
+			</dependency>
 
-           <dependency>
-               <groupId>log4j</groupId>
-               <artifactId>log4j</artifactId>
-               <version>1.2.17</version>
-               <exclusions>
-                   <exclusion>
-                       <groupId>com.sun.jmx</groupId>
-                       <artifactId>jmxri</artifactId>
-                   </exclusion>
-                   <exclusion>
-                       <groupId>com.sun.jdmk</groupId>
-                       <artifactId>jmxtools</artifactId>
-                   </exclusion>
-                   <exclusion>
-                       <groupId>javax.jms</groupId>
-                       <artifactId>jms</artifactId>
-                   </exclusion>
-               </exclusions>
-           </dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.sun.jmx</groupId>
+						<artifactId>jmxri</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jdmk</groupId>
+						<artifactId>jmxtools</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.jms</groupId>
+						<artifactId>jms</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 
-           <dependency>
-               <groupId>junit</groupId>
-               <artifactId>junit</artifactId>
-               <version>4.11</version>
-               <scope>test</scope>
-           </dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.11</version>
+				<scope>test</scope>
+			</dependency>
 
 
-           <dependency>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-release-plugin</artifactId>
-               <version>2.2.2</version>
-           </dependency>
-           <dependency>
-               <groupId>org.apache.maven.release</groupId>
-               <artifactId>maven-release</artifactId>
-               <version>2.2.2</version>
-           </dependency>
-           <dependency>
-               <groupId>org.apache.maven.plugins</groupId>
-               <artifactId>maven-dependency-plugin</artifactId>
-               <version>2.2</version>
-           </dependency>
-           <!-- No error, without this, using this gives 1 error -->
+			<dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.release</groupId>
+				<artifactId>maven-release</artifactId>
+				<version>2.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+			</dependency>
+			<!-- No error, without this, using this gives 1 error -->
 
 			<dependency>
 				<groupId>org.apache.maven.plugins</groupId>

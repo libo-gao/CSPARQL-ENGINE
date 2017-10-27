@@ -96,8 +96,6 @@ public class EsperEngine implements CepEngine {
 			timeStampTick = Config.INSTANCE.getTimeStampTick();
 		}
 
-		//this.configuration.getEngineDefaults().getThreading().setListenerDispatchPreserveOrder(false);
-
 		// Obtain an engine instance
 		this.epService = EPServiceProviderManager.getDefaultProvider(this.configuration);
 		// ...and initialize it
@@ -255,8 +253,7 @@ public class EsperEngine implements CepEngine {
 		if (!isSysTimeInit) {
 			// Using the beginning of the current tick as the the window boundary
 			long initTime = inputTime / this.timeStampTick * this.timeStampTick;
-			this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(inputTime));
-			//this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(initTime));
+			this.epService.getEPRuntime().sendEvent(new CurrentTimeEvent(initTime));
 			isSysTimeInit = true;
 			this.currentSystemTime = initTime;
 			this.currentSystemLastTickTime = initTime;

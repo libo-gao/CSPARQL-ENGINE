@@ -34,15 +34,8 @@
  */
 package eu.larkc.csparql.core.engine;
 
-import java.io.BufferedWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Observable;
-import java.io.IOException;
 
-//import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import eu.larkc.csparql.common.RDFTable;
 import eu.larkc.csparql.common.RDFTuple;
 import eu.larkc.csparql.core.ResultFormatter;
@@ -67,17 +60,9 @@ public class ConsoleFormatter extends ResultFormatter {
 		
 		System.out.println();
 		System.out.println("-------"+ q.size() + " results at SystemTime=["+System.currentTimeMillis()+"]--------");
-		String time = "end: " + String.valueOf(System.nanoTime())+"\n";
-		try{
-			Files.write(Paths.get("time.txt"), time.getBytes(), StandardOpenOption.APPEND);
-		}catch (IOException e){
-
-		}
-
 		for (final RDFTuple t : q) {
 			System.out.println(t.toString());
 		}
-
-		System.out.println();
+		System.out.println();		
 	}
 }
